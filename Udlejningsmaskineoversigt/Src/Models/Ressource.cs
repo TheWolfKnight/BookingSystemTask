@@ -5,22 +5,22 @@ namespace Udlejningsmaskineoversigt.Src.Models {
         public int Id { get; private set; } = -1;
         public string Description { get; private set; } = null!;
         public Specification Specification { get; private set; } = Specification.UNSPECIFIED;
-        public Double Price { get; private set; }
+        public double Price { get; private set; }
 
-        public Ressource(string description, Specification specification, double price) {
-            Description = description;
-            Specification = specification;
+        public Ressource(string desc, Specification spec, double price) {
+            Description = desc;
+            Specification = spec;
             Price = price;
         }
 
-        public Ressource(int id, string description, Specification specification, double price) {
-            Id = id;
-            Description = description;
-            Specification = specification;
-            Price = price;
+        public Ressource(RessourceDTO source) {
+            Id = source.Id;
+            Description = source.Description;
+            Specification = source.Specification;
+            Price = source.Price;
         }
 
-        public Ressource(int id, Ressource source) {
+        public Ressource(int id, RessourceDTO source) {
             Id = id;
             Description = source.Description;
             Specification = source.Specification;

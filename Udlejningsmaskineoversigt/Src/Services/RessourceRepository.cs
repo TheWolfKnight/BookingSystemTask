@@ -19,18 +19,21 @@ namespace Udlejningsmaskineoversigt.Src.Services {
             return result;
         }
 
-        public void Add(Ressource resource) {
+        public void Add(RessourceDTO resource) {
             Ressource result = new Ressource(++_Id, resource);
             _Ressources.Add(result);
         }
 
         public void Delete(int id) {
             Ressource to_be_deleted = _Ressources.Find(re => re.Id == id) ?? throw new Exception($"Could not find the item with id: {id}");
+            _Ressources.Remove(to_be_deleted);
         }
 
-        public void Update(Ressource ressource) {
+        public void Update(RessourceDTO ressource) {
             Ressource old = _Ressources.Find(re => re.Id == ressource.Id) ?? throw new Exception("Not in repo");
-            old = ressource;
+            Ressource _new = new Ressource(ressource);
+            int idx = _Ressources.IndexOf(old);
+            _Ressources[idx] = _new;
         }
     }
 }

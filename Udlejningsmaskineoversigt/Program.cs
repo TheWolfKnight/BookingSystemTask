@@ -1,5 +1,3 @@
-using Udlejningsmaskineoversigt.Src.Interfaces;
-using Udlejningsmaskineoversigt.Src.Services;
 
 WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
 

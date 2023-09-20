@@ -12,38 +12,43 @@ namespace Udlejningsmaskineoversigt.Controllers {
         private readonly static IRessourceRepository _repo = new RessourceRepository();
 
         [HttpPost]
-        public ActionResult CreateNewRessource(string desc, int spec, double price) {
-
-            Ressource result = new Ressource(desc, (Specification)spec, price);
-            _repo.Add(result);
-
+        public ActionResult CreateNewRessource([FromBody] RessourceDTO source) {
+            _repo.Add(source);
             return Ok();
         }
 
         [HttpGet]
         [Route("{id}")]
         public ActionResult<Ressource> GetRessource(int id) {
-            Ressource result = _repo.GetById(id);
-            return Ok(result);
+            try {
+                Ressource result = _repo.GetById(id);
+                return Ok(result);
+            } catch (Exception) {
+                return new NoContentResult();
+            }
         }
 
         [HttpPut]
         [Route("{id}")]
-        public ActionResult UpdateRessouce(int id, string desc, int spec, double price) {
-
-            Ressource result = new Ressource(id, desc, (Specification)spec, price);
-            _repo.Update(result);
-
-            return Ok();
+        public ActionResult UpdateRessouce(int id, [FromBody] RessourceDTO source) {
+            RessourceDTO result = new RessourceDTO(id, source);
+            try {
+                _repo.Update(result);
+                return Ok();
+            } catch (Exception) {
+                return new NoContentResult();
+            }
         }
 
         [HttpDelete]
         [Route("{id}")]
         public ActionResult DeleteRessouce(int id) {
-
-            _repo.Delete(id);
-
-            return Ok();
+            try {
+                _repo.Delete(id);
+                return Ok();
+            } catch (Exception) {
+                return new NoContentResult();
+            }
         }
 
     }

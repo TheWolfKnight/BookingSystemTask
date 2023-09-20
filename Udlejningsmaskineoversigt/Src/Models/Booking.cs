@@ -13,7 +13,7 @@
         /// <param name="resource"></param>
         /// <param name="bookings"></param>
         public Booking(DateTime start, DateTime end, Ressource resource, IEnumerable<Booking> bookings) {
-            if (IsOverlapping(bookings)) ;
+            if (IsOverlapping(bookings)) throw new Exception("No overlap please");
 
             Resource = resource;
             Start = start;

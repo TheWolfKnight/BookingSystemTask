@@ -9,9 +9,9 @@ namespace Udlejningsmaskineoversigt.Src.Interfaces
         IEnumerable<Ressource> GetAllElements();
         Ressource GetById(int id);
 
-        void Add(Ressource resource);
+        void Add(RessourceDTO resource);
         void Delete(int id);
-        void Update(Ressource resource);
+        void Update(RessourceDTO resource);
 
     }
 }

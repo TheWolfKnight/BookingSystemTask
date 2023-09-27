@@ -26,6 +26,11 @@ namespace Abstraction.Models {
         /// <summary>
         /// 
         /// </summary>
+        public Resource() {}
+
+        /// <summary>
+        /// 
+        /// </summary>
         /// <param name="desc"></param>
         /// <param name="spec"></param>
         /// <param name="price"></param>

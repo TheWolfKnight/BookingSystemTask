@@ -14,15 +14,20 @@ namespace Abstraction.Models {
         /// <summary>
         /// 
         /// </summary>
-        public DateTime Start;
+        public DateTime Start { get; set; }
         /// <summary>
         /// 
         /// </summary>
-        public DateTime End;
+        public DateTime End { get; set; }
         /// <summary>
         /// 
         /// </summary>
-        public Resource Resource;
+        public Resource Resource { get; set; } = null!;
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public Booking() {}
 
         /// <summary>
         /// 

@@ -5,6 +5,8 @@ VisualStudioVersion = 17.7.34018.315
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Udlejningsmaskineoversigt", "Udlejningsmaskineoversigt\Udlejningsmaskineoversigt.csproj", "{3D4D3B7A-7F16-4702-BC4C-914B259A4774}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Abstraction", "Abstraction\Abstraction.csproj", "{CAFB1F5B-1933-4C52-BC27-326275F66983}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{3D4D3B7A-7F16-4702-BC4C-914B259A4774}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3D4D3B7A-7F16-4702-BC4C-914B259A4774}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3D4D3B7A-7F16-4702-BC4C-914B259A4774}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CAFB1F5B-1933-4C52-BC27-326275F66983}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CAFB1F5B-1933-4C52-BC27-326275F66983}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CAFB1F5B-1933-4C52-BC27-326275F66983}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CAFB1F5B-1933-4C52-BC27-326275F66983}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

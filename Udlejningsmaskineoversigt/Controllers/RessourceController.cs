@@ -1,37 +1,58 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Udlejningsmaskineoversigt.Src.Enumerators;
-using Udlejningsmaskineoversigt.Src.Interfaces;
-using Udlejningsmaskineoversigt.Src.Models;
+using System.ComponentModel;
+using Abstraction.Enumerators;
+using Abstraction.Interfaces;
+using Abstraction.Models;
 using Udlejningsmaskineoversigt.Src.Services;
 
 namespace Udlejningsmaskineoversigt.Controllers {
+    /// <summary>
+    /// The controller for the Resource api
+    /// </summary>
     [ApiController]
     [Route("[controller]")]
     public class RessourceController : ControllerBase {
 
-        private readonly static IRessourceRepository _repo = new RessourceRepository();
+        private readonly static IRescourceRepository _repo = new RessourceRepository();
 
+        /// <summary>
+        /// Creates a new element in the database
+        /// </summary>
+        /// <param name="source"> the data for the new element </param>
+        /// <returns> An ActionResult </returns>
         [HttpPost]
-        public ActionResult CreateNewRessource([FromBody] RessourceDTO source) {
+        [Description("Test")]
+        public ActionResult CreateNewRessource([FromBody] ResourceDTO source) {
             _repo.Add(source);
             return Ok();
         }
 
+        /// <summary>
+        /// Gets a specific resource from the database by id
+        /// </summary>
+        /// <param name="id"> The id of the resource to be updated </param>
+        /// <returns> An instance of RescourceDTO or an ActionResult error </returns>
         [HttpGet]
         [Route("{id}")]
-        public ActionResult<Ressource> GetRessource(int id) {
+        public ActionResult<ResourceDTO> GetRessource(int id) {
             try {
-                Ressource result = _repo.GetById(id);
+                Resource result = _repo.GetById(id);
                 return Ok(result);
             } catch (Exception) {
                 return new NoContentResult();
             }
         }
 
+        /// <summary>
+        /// Updates a specific resource from the database
+        /// </summary>
+        /// <param name="id"> The id for the item to be updated </param>
+        /// <param name="source"> The data for the update </param>
+        /// <returns> An ActionResult </returns>
         [HttpPut]
         [Route("{id}")]
-        public ActionResult UpdateRessouce(int id, [FromBody] RessourceDTO source) {
-            RessourceDTO result = new RessourceDTO(id, source);
+        public ActionResult UpdateRessouce(int id, [FromBody] ResourceDTO source) {
+            ResourceDTO result = new ResourceDTO(id, source);
             try {
                 _repo.Update(result);
                 return Ok();
@@ -40,6 +61,11 @@ namespace Udlejningsmaskineoversigt.Controllers {
             }
         }
 
+        /// <summary>
+        /// Removes a specific resource from the database by id
+        /// </summary>
+        /// <param name="id"> The id for the element to be changed </param>
+        /// <returns> An ActionResult </returns>
         [HttpDelete]
         [Route("{id}")]
         public ActionResult DeleteRessouce(int id) {

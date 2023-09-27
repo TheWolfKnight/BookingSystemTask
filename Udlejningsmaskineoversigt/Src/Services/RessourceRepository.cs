@@ -1,37 +1,67 @@
 ﻿
-using Udlejningsmaskineoversigt.Src.Interfaces;
-using Udlejningsmaskineoversigt.Src.Models;
+using Abstraction.Interfaces;
+using Abstraction.Models;
 
 namespace Udlejningsmaskineoversigt.Src.Services {
-    public class RessourceRepository : IRessourceRepository {
+    /// <summary>
+    /// The repository for the Resources
+    /// </summary>
+    public class RessourceRepository : IRescourceRepository {
 
-        private readonly static List<Ressource> _Ressources = new List<Ressource>();
+        private readonly static List<Resource> _Ressources = new List<Resource>();
         private static int _Id = -1;
 
+        /// <summary>
+        /// The constructor
+        /// </summary>
         public RessourceRepository() {}
 
-        public IEnumerable<Ressource> GetAllElements() {
+        /// <summary>
+        /// Gets all Resources in the database
+        /// </summary>
+        /// <returns> An enumerable with the databases Resources </returns>
+        public IEnumerable<Resource> GetAllElements() {
             return _Ressources;
         }
 
-        public Ressource GetById(int id) {
-            Ressource result = _Ressources.Find(re => re.Id == id) ?? throw new Exception($"Could not find item with id: {id}");
+        /// <summary>
+        /// Get a specific Resource by id
+        /// </summary>
+        /// <param name="id"> The id of the resource </param>
+        /// <returns> An instance of Resource </returns>
+        /// <exception cref="Exception"> If the item cannot be found, throw exception </exception>
+        public Resource GetById(int id) {
+            Resource result = _Ressources.Find(re => re.Id == id) ?? throw new Exception($"Could not find item with id: {id}");
             return result;
         }
 
-        public void Add(RessourceDTO resource) {
-            Ressource result = new Ressource(++_Id, resource);
+        /// <summary>
+        /// Commits a Resource to the database
+        /// </summary>
+        /// <param name="resource"> The instance of Resource to be inserted </param>
+        public void Add(ResourceDTO resource) {
+            Resource result = new Resource(++_Id, resource);
             _Ressources.Add(result);
         }
 
+        /// <summary>
+        /// Remove a Resource from the database
+        /// </summary>
+        /// <param name="id"> The id of the Resource to be deleted </param>
+        /// <exception cref="Exception"> Thrown if the id cannot be found in the database </exception>
         public void Delete(int id) {
-            Ressource to_be_deleted = _Ressources.Find(re => re.Id == id) ?? throw new Exception($"Could not find the item with id: {id}");
+            Resource to_be_deleted = _Ressources.Find(re => re.Id == id) ?? throw new Exception($"Could not find the item with id: {id}");
             _Ressources.Remove(to_be_deleted);
         }
 
-        public void Update(RessourceDTO ressource) {
-            Ressource old = _Ressources.Find(re => re.Id == ressource.Id) ?? throw new Exception("Not in repo");
-            Ressource _new = new Ressource(ressource);
+        /// <summary>
+        /// Updates a Resource in the database
+        /// </summary>
+        /// <param name="resource"> The resource to be updated </param>
+        /// <exception cref="Exception"> Thrown if no Resource with given id can be found </exception>
+        public void Update(ResourceDTO resource) {
+            Resource old = _Ressources.Find(re => re.Id == resource.Id) ?? throw new Exception($"Could not find the item with id: {resource.Id}");
+            Resource _new = new Resource(resource);
             int idx = _Ressources.IndexOf(old);
             _Ressources[idx] = _new;
         }

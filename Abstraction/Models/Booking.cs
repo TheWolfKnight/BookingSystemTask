@@ -1,9 +1,28 @@
-﻿namespace Udlejningsmaskineoversigt.Src.Models {
+﻿
+using Abstraction.Models;
+
+namespace Abstraction.Models {
+    /// <summary>
+    /// 
+    /// </summary>
     public class Booking {
 
+        /// <summary>
+        /// 
+        /// </summary>
         public int Id { get; private set; } = -1;
-        public DateTime Start, End;
-        public Ressource Resource;
+        /// <summary>
+        /// 
+        /// </summary>
+        public DateTime Start;
+        /// <summary>
+        /// 
+        /// </summary>
+        public DateTime End;
+        /// <summary>
+        /// 
+        /// </summary>
+        public Resource Resource;
 
         /// <summary>
         /// 
@@ -12,7 +31,7 @@
         /// <param name="end"></param>
         /// <param name="resource"></param>
         /// <param name="bookings"></param>
-        public Booking(DateTime start, DateTime end, Ressource resource, IEnumerable<Booking> bookings) {
+        public Booking(DateTime start, DateTime end, Resource resource, IEnumerable<Booking> bookings) {
             if (IsOverlapping(bookings)) throw new Exception("No overlap please");
 
             Resource = resource;
@@ -27,7 +46,7 @@
         /// <param name="start"></param>
         /// <param name="end"></param>
         /// <param name="resource"></param>
-        public Booking(int id, DateTime start, DateTime end, Ressource resource) {
+        public Booking(int id, DateTime start, DateTime end, Resource resource) {
             Id = id;
             Resource = resource;
             Start = start;

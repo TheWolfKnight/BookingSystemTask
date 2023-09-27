@@ -9,7 +9,7 @@ namespace Abstraction.Models {
         /// <summary>
         /// 
         /// </summary>
-        public int Id { get; private set; } = -1;
+        public int Id { get; private set; }
         /// <summary>
         /// 
         /// </summary>
@@ -27,6 +27,13 @@ namespace Abstraction.Models {
         /// 
         /// </summary>
         public ResourceDTO() {}
+
+        public ResourceDTO(Resource source) {
+            this.Id = source.Id;
+            this.Description = source.Description;
+            this.Specification = source.Specification;
+            this.Price = source.Price;
+        }
 
         /// <summary>
         /// 

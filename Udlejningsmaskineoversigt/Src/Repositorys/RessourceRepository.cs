@@ -1,27 +1,31 @@
 ﻿
 using Abstraction.Interfaces;
 using Abstraction.Models;
+using Microsoft.EntityFrameworkCore;
+using Udlejningsmaskineoversigt.Data;
 
-namespace Udlejningsmaskineoversigt.Src.Services {
+namespace Udlejningsmaskineoversigt.Src.Repositorys
+{
     /// <summary>
     /// The repository for the Resources
     /// </summary>
-    public class RessourceRepository : IRescourceRepository {
+    public class RessourceRepository : IRescourceRepository
+    {
 
-        private readonly static List<ResourceDTO> _Ressources = new List<ResourceDTO>();
-        private static int _Id = -1;
+        private UdlejningDataContext _Ctx = new UdlejningDataContext();
 
         /// <summary>
         /// The constructor
         /// </summary>
-        public RessourceRepository() {}
+        public RessourceRepository() {
+        }
 
         /// <summary>
         /// Gets all Resources in the database
         /// </summary>
         /// <returns> An enumerable with the databases Resources </returns>
         public IEnumerable<ResourceDTO> GetAllElements() {
-            return _Ressources;
+            return _Ctx.Resources.Select(r => new ResourceDTO(r));
         }
 
         /// <summary>
@@ -31,8 +35,12 @@ namespace Udlejningsmaskineoversigt.Src.Services {
         /// <returns> An instance of Resource </returns>
         /// <exception cref="Exception"> If the item cannot be found, throw exception </exception>
         public ResourceDTO GetById(int id) {
-            ResourceDTO result = _Ressources.Find(re => re.Id == id) ?? throw new Exception($"Could not find item with id: {id}");
-            return result;
+            try {
+                ResourceDTO result = GetAllElements().First(re => re.Id == id);
+                return result;
+            } catch (Exception) {
+                throw new Exception($"Could not find item with id: {id}");
+            }
         }
 
         /// <summary>
@@ -40,8 +48,9 @@ namespace Udlejningsmaskineoversigt.Src.Services {
         /// </summary>
         /// <param name="resource"> The instance of Resource to be inserted </param>
         public void Add(ResourceDTO resource) {
-            ResourceDTO result = new ResourceDTO(++_Id, resource);
-            _Ressources.Add(result);
+            Resource result = new Resource(resource);
+            _Ctx.Resources.Add(result);
+            _Ctx.SaveChanges();
         }
 
         /// <summary>
@@ -50,8 +59,13 @@ namespace Udlejningsmaskineoversigt.Src.Services {
         /// <param name="id"> The id of the Resource to be deleted </param>
         /// <exception cref="Exception"> Thrown if the id cannot be found in the database </exception>
         public void Delete(int id) {
-            ResourceDTO to_be_deleted = _Ressources.Find(re => re.Id == id) ?? throw new Exception($"Could not find the item with id: {id}");
-            _Ressources.Remove(to_be_deleted);
+            try {
+                ResourceDTO to_be_deleted = GetAllElements().First(re => re.Id == id);
+                Resource result = new Resource(to_be_deleted);
+                _Ctx.Resources.Remove(result);
+            } catch (Exception) {
+                throw new Exception($"Could not find the item with id: {id}");
+            }
         }
 
         /// <summary>
@@ -60,9 +74,12 @@ namespace Udlejningsmaskineoversigt.Src.Services {
         /// <param name="resource"> The resource to be updated </param>
         /// <exception cref="Exception"> Thrown if no Resource with given id can be found </exception>
         public void Update(ResourceDTO resource) {
-            ResourceDTO old = _Ressources.Find(re => re.Id == resource.Id) ?? throw new Exception($"Could not find the item with id: {resource.Id}");;
-            int idx = _Ressources.IndexOf(old);
-            _Ressources[idx] = resource;
+            try {
+                ResourceDTO old = GetAllElements().First(re => re.Id == resource.Id);
+                old = resource;
+            } catch (Exception) {
+                throw new Exception($"Could not find the item with id: {resource.Id}");
+            }
         }
     }
 }

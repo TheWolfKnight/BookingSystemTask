@@ -4,6 +4,8 @@ using Abstraction.Models;
 namespace Udlejningsmaskineoversigt.Data {
     public class UdlejningDataContext : DbContext {
 
+        public UdlejningDataContext() { }
+
         public UdlejningDataContext(DbContextOptions<UdlejningDataContext> options) : base(options) { }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder) {

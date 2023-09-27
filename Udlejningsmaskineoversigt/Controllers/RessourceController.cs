@@ -3,7 +3,8 @@ using System.ComponentModel;
 using Abstraction.Enumerators;
 using Abstraction.Interfaces;
 using Abstraction.Models;
-using Udlejningsmaskineoversigt.Src.Services;
+using Udlejningsmaskineoversigt.Src.Repositorys;
+using Udlejningsmaskineoversigt.Data;
 
 namespace Udlejningsmaskineoversigt.Controllers {
     /// <summary>
@@ -13,7 +14,7 @@ namespace Udlejningsmaskineoversigt.Controllers {
     [Route("[controller]")]
     public class RessourceController : ControllerBase {
 
-        private readonly static IRescourceRepository _repo = new RessourceRepository();
+        private readonly IRescourceRepository _repo = new RessourceRepository();
 
         /// <summary>
         /// Creates a new element in the database

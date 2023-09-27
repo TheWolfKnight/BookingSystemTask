@@ -1,5 +1,7 @@
 ﻿
 using Abstraction.Models;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Abstraction.Models {
     /// <summary>
@@ -10,7 +12,9 @@ namespace Abstraction.Models {
         /// <summary>
         /// 
         /// </summary>
-        public int Id { get; private set; } = -1;
+        [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        public int Id { get; private set; }
         /// <summary>
         /// 
         /// </summary>
@@ -55,6 +59,11 @@ namespace Abstraction.Models {
             End = end;
         }
 
-
+        public Booking(BookingDTO source) {
+            this.Id = source.Id;
+            this.Start = source.Start;
+            this.End = source.End;
+            this.Resource = source.Resource;
+        }
     }
 }

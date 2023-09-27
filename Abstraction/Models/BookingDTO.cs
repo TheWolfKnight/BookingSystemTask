@@ -10,7 +10,7 @@ namespace Abstraction.Models {
         /// <summary>
         /// 
         /// </summary>
-        public int Id { get; private set; } = -1;
+        public int Id { get; private set; }
         /// <summary>
         /// 
         /// </summary>
@@ -23,6 +23,13 @@ namespace Abstraction.Models {
         /// 
         /// </summary>
         public Resource Resource { get; set; }
+
+        public BookingDTO(Booking source) {
+            this.Id = source.Id;
+            this.Start = source.Start;
+            this.End = source.End;
+            this.Resource = source.Resource;
+        }
 
         /// <summary>
         /// 

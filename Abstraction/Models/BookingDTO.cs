@@ -1,11 +1,11 @@
-﻿
-using Abstraction.Models;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
 namespace Abstraction.Models {
-    /// <summary>
-    /// 
-    /// </summary>
-    public class Booking {
+    public class BookingDTO {
 
         /// <summary>
         /// 
@@ -14,15 +14,15 @@ namespace Abstraction.Models {
         /// <summary>
         /// 
         /// </summary>
-        public DateTime Start;
+        public DateTime Start { get; set; }
         /// <summary>
         /// 
         /// </summary>
-        public DateTime End;
+        public DateTime End { get; set; }
         /// <summary>
         /// 
         /// </summary>
-        public Resource Resource;
+        public Resource Resource { get; set; }
 
         /// <summary>
         /// 
@@ -30,7 +30,7 @@ namespace Abstraction.Models {
         /// <param name="start"></param>
         /// <param name="end"></param>
         /// <param name="resource"></param>
-        public Booking(DateTime start, DateTime end, Resource resource) {
+        public BookingDTO(DateTime start, DateTime end, Resource resource) {
             Resource = resource;
             Start = start;
             End = end;
@@ -43,13 +43,12 @@ namespace Abstraction.Models {
         /// <param name="start"></param>
         /// <param name="end"></param>
         /// <param name="resource"></param>
-        public Booking(int id, DateTime start, DateTime end, Resource resource) {
+        public BookingDTO(int id, DateTime start, DateTime end, Resource resource) {
             Id = id;
             Resource = resource;
             Start = start;
             End = end;
         }
-
 
     }
 }

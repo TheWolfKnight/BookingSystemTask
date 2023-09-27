@@ -12,14 +12,14 @@ namespace Abstraction.Interfaces
         /// Return all elements from the database
         /// </summary>
         /// <returns> An enumerable of Resources </returns>
-        IEnumerable<Resource> GetAllElements();
+        IEnumerable<ResourceDTO> GetAllElements();
 
         /// <summary>
         /// Gets a specific element from the database
         /// </summary>
         /// <param name="id"> The id of the element that to get </param>
         /// <returns> An instance of Resource </returns>
-        Resource GetById(int id);
+        ResourceDTO GetById(int id);
 
         /// <summary>
         /// Commits a Resource to the database

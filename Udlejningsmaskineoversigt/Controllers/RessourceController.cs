@@ -36,7 +36,7 @@ namespace Udlejningsmaskineoversigt.Controllers {
         [Route("{id}")]
         public ActionResult<ResourceDTO> GetRessource(int id) {
             try {
-                Resource result = _repo.GetById(id);
+                ResourceDTO result = _repo.GetById(id);
                 return Ok(result);
             } catch (Exception) {
                 return new NoContentResult();

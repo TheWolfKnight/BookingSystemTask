@@ -22,7 +22,6 @@ namespace Udlejningsmaskineoversigt.Controllers {
         /// <param name="source"> the data for the new element </param>
         /// <returns> An ActionResult </returns>
         [HttpPost]
-        [Description("Test")]
         public ActionResult CreateNewRessource([FromBody] ResourceDTO source) {
             _repo.Add(source);
             return Ok();

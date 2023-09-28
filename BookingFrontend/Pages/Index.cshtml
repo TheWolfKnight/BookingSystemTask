@@ -2,6 +2,7 @@
 @model IndexModel
 @{
     ViewData["Title"] = "Home page";
+    ViewData["ResourceData"] = "";
 }
 
 <div id="main-page" class="root">
@@ -11,6 +12,21 @@
         <a class="navbar-brand" asp-area="" asp-page="/UpdateItem">Update Resource</a>
     </div>
 
+    <add namespace="BookingFrontend.Services" />
 
+    @functions {
+        async Task GetItem() {
+            
+        }
+    }
+
+    <div>
+        <input id="resource-id-input" type="text" placeholder="Input item Id" />
+        <button onclick="@{await GetItem();}">Find Item</button>
+    </div>
+
+    <div id="resource-diplsay" class="display">
+        @ViewData["ResourceData"]
+    </div>
 
 </div>

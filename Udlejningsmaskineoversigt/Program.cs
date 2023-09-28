@@ -1,8 +1,5 @@
 
-using Swashbuckle.AspNetCore.SwaggerGen;
-using System.Reflection;
 using Udlejningsmaskineoversigt.Data;
-using Microsoft.EntityFrameworkCore;
 
 WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
 
@@ -18,14 +15,12 @@ builder.Services.AddSwaggerGen(c => {
         Title = "Resource API - v1",
         Version = "v1",
     });
-    string xmlFileMain = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
-    string xmlFileAbstraction = "Abstraction.xml";
-    string filePathMain = Path.Combine(AppContext.BaseDirectory, xmlFileMain);
-    string filePathAbstraction = Path.Combine(AppContext.BaseDirectory, xmlFileAbstraction);
-    c.IncludeXmlComments(filePathMain);
-    c.IncludeXmlComments(filePathAbstraction);
-});
 
+    foreach (string path in Directory.EnumerateFiles(AppContext.BaseDirectory)) {
+        if (!path.EndsWith(".xml")) continue;
+        c.IncludeXmlComments(path);
+    }
+});
 
 WebApplication app = builder.Build();
 

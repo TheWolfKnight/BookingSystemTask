@@ -1,8 +1,9 @@
 ﻿using Abstraction.Models;
 using Abstraction.Enumerators;
-using System.Text;
 using Microsoft.AspNetCore.Mvc;
 using System.Text.Json;
+using System.Net;
+using Microsoft.AspNetCore.Http.HttpResults;
 
 namespace BookingFrontend.Services
 {
@@ -13,27 +14,62 @@ namespace BookingFrontend.Services
 
         public APICaller() {
             APIContext = new HttpClient();
-            APIContext.BaseAddress = new Uri("https://localhost:6580/");
+            APIContext.BaseAddress = new Uri("http://localhost:7002/");
         }
 
-
-        public async Task<ActionResult> AddResouce(string name, int type, double price) {
-
+        public async Task<ActionResult> AddResources(string name, int type, double price) {
             ResourceDTO data = new ResourceDTO(name, (Specification)type, price);
-            StringContent content = new StringContent(JsonSerializer.Serialize(data));
+            StringContent send_content = new StringContent(JsonSerializer.Serialize(data));
 
-            HttpResponseMessage repsonse = await APIContext.PostAsync("Ressource", content);
+            HttpResponseMessage response = await APIContext.PostAsync("Ressource", send_content);
 
-            repsonse.EnsureSuccessStatusCode();
+            if (!response.IsSuccessStatusCode) {
+                return new NoContentResult();
+            }
 
             return new OkResult();
         }
 
-        public async Task<ActionResult<string>> GetResource(int id) {
+        public async Task<ActionResult<ResourceDTO>> GetRessources(int id) {
+            HttpResponseMessage response = await APIContext.GetAsync($"Ressource/{id}");
 
+            if (!response.IsSuccessStatusCode) {
+                return new NoContentResult();
+            }
 
-            return "not";
+            ResourceDTO? json_ressource = await response.Content.ReadFromJsonAsync<ResourceDTO>();
+
+            if (json_ressource == null) {
+                return new NoContentResult();
+            }
+
+            return json_ressource;
         }
 
+        public async Task<ActionResult> UpdateRessources(int id, string desc, string type, string s_price) {
+            Specification spec = (Specification)int.Parse(type);
+            double price = double.Parse(s_price);
+            ResourceDTO ressource = new ResourceDTO(desc, spec, price);
+
+            StringContent send_content = new StringContent(JsonSerializer.Serialize(ressource));
+
+            HttpResponseMessage response = await APIContext.PutAsync($"Ressource/{id}", send_content);
+
+            if (!response.IsSuccessStatusCode) {
+                return new NotFoundResult();
+            }
+
+            return new OkResult();
+        }
+
+        public async Task<ActionResult> DeleteRessource(int id) {
+            HttpResponseMessage response = await APIContext.DeleteAsync($"Ressource/{id}");
+
+            if (!response.IsSuccessStatusCode) {
+                return new NotFoundResult();
+            }
+
+            return new OkResult();
+        }
     }
 }

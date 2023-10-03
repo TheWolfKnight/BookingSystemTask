@@ -25,6 +25,10 @@ namespace Udlejningsmaskineoversigt.Src.Repositorys
             _bookingRepository = bookingRepository;
         }
 
+        public RessourceRepository()
+        {
+        }
+
         /// <summary>
         /// Gets all Resources in the database
         /// </summary>

@@ -1,7 +1,88 @@
 ﻿@page
 @model Frontend.Pages.AddRessourceModel
 @{
+    ViewData["Title"] = "Ny Ressource";
 }
 
 <div id="content-root">
+
+    <a asp-page="./index">Tilbage</a>
+
+    <div id="input-fields">
+        <input id="desc-input" type="text" placeholder="Description" />
+        <input id="type-input" type="number" placeholder="Type" />
+        <input id="price-input" type="text" placeholder="price" />
+    </div>
+
+    <button id="submit-ressource" type="submit">Tilføj Ressource</button>
+
 </div>
+
+<script async action="javascript/js">
+
+    function get_values() {
+        const description_input = document.getElementById("desc-input");
+        const type_input = document.getElementById("type-input");
+        const price_input = document.getElementById("price-input");
+
+        const desc = description_input.value;
+        if (desc.lenght < 1) {
+            throw "no";
+        }
+
+        if (isNaN(type_input.value) || type_input.value.length < 1) {
+            throw "no";
+        }
+        const spec = parseInt(type_input.value);
+
+        if (isNaN(price_input.value) || price_input.value.length < 1) {
+            throw "no";
+        }
+        const price = parseFloat(price_input.value);
+
+        const data = {
+            description: desc,
+            specification: spec,
+            price: price,
+        };
+
+        return data;
+    }
+
+    async function post_ressource() {
+        console.log("here");
+        let data = null;
+        try {
+            data = get_values();
+        } catch (_err) {
+            alert("Noget data er forkert");
+            return;
+        }
+
+        const BASE_ADDR = "http://localhost:5000";
+        let response = await fetch(`${BASE_ADDR}/Ressource`, {
+            method: "POST",
+            mode: "cors",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify(data),
+        });
+
+        if (response.status !== 200) {
+            alert("Kunne ikke sende til serveren");
+            return;
+        }
+
+        alert("Ny Ressource lavet");
+        return;
+    }
+
+    document.getElementById("submit-ressource").addEventListener("click", async (mev) => {
+        const LEFT_MOUSE_BUTTON = 0;
+        if (mev.buttons !== LEFT_MOUSE_BUTTON) return;
+
+        await post_ressource();
+    });
+
+</script>

@@ -14,7 +14,7 @@ namespace Udlejningsmaskineoversigt.Src.Repositorys {
         public void Delete(int id) {
             try
             {
-                Booking booking = _Ctx.Bookings.Find(id);
+                Booking booking = _Ctx.Bookings.First(booking => booking.Id == id);
 
                 if (booking == null)
                 {

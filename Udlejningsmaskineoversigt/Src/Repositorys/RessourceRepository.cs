@@ -3,6 +3,7 @@ using Abstraction.Interfaces;
 using Abstraction.Models;
 using Microsoft.EntityFrameworkCore;
 using Udlejningsmaskineoversigt.Data;
+using Udlejningsmaskineoversigt.Src.Services;
 
 namespace Udlejningsmaskineoversigt.Src.Repositorys
 {
@@ -12,21 +13,18 @@ namespace Udlejningsmaskineoversigt.Src.Repositorys
     public class RessourceRepository : IRescourceRepository
     {
 
-        private Services.BookingService _services = new Services.BookingService();
-        private IBookingRepository _bookingRepository;
+        private readonly IRessourceService _ressourceServices = null!;
+        private readonly IBookingRepository _bookingRepo = null!;
 
-        private UdlejningDataContext _Ctx = new UdlejningDataContext();
+        private readonly UdlejningDataContext _Ctx = new UdlejningDataContext();
 
         /// <summary>
         /// The constructor
         /// </summary>
-        public RessourceRepository(IBookingRepository bookingRepository)
+        public RessourceRepository(IRessourceService ressourceService, IBookingRepository bookingRepository)
         {
-            _bookingRepository = bookingRepository;
-        }
-
-        public RessourceRepository()
-        {
+            _bookingRepo = bookingRepository;
+            _ressourceServices = ressourceService;
         }
 
         /// <summary>
@@ -70,6 +68,11 @@ namespace Udlejningsmaskineoversigt.Src.Repositorys
         public void Delete(int id) {
             try {
                 Resource to_be_deleted = _Ctx.Resources.First(re => re.Id == id);
+
+                if (_ressourceServices.IsRented(to_be_deleted, _bookingRepo)) {
+                    throw new Exception("Ressource is booked");
+                }
+
                 _Ctx.Resources.Remove(to_be_deleted);
                 _Ctx.SaveChanges();
             } catch (Exception) {

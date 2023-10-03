@@ -16,7 +16,11 @@ namespace Udlejningsmaskineoversigt.Controllers {
     [EnableCors]
     public class RessourceController : ControllerBase {
 
-        private readonly IRescourceRepository _repo = new RessourceRepository();
+        private readonly IRescourceRepository _repo = null!;
+
+        public RessourceController(IRessourceService service, IBookingRepository bookingRepo) {
+            _repo = new RessourceRepository(service, bookingRepo);
+        }
 
         [HttpGet]
         [Route("test")]

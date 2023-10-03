@@ -1,6 +1,8 @@
 
-using Microsoft.AspNetCore.Cors.Infrastructure;
+using Abstraction.Interfaces;
 using Udlejningsmaskineoversigt.Data;
+using Udlejningsmaskineoversigt.Src.Repositorys;
+using Udlejningsmaskineoversigt.Src.Services;
 
 WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
 
@@ -9,7 +11,8 @@ builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddDbContext<UdlejningDataContext>();
-
+builder.Services.AddScoped<IRessourceService, RessourceService>();
+builder.Services.AddScoped<IBookingRepository, BookingRepository>();
 
 builder.Services.AddSwaggerGen(c => {
     c.SwaggerDoc("v1", new Microsoft.OpenApi.Models.OpenApiInfo {

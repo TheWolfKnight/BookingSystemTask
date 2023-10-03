@@ -22,15 +22,5 @@ namespace Udlejningsmaskineoversigt.Src.Services {
 
             return false;
         }
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="resource"></param>
-        /// <param name="bookings"></param>
-        /// <returns></returns>
-        public bool IsRented(ResourceDTO resource, IBookingRepository bookings)
-        {
-            return bookings.GetAllElements().Any(booking => booking.Resource.Id == resource.Id);
-        }
     }
 }

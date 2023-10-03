@@ -12,12 +12,21 @@ namespace Udlejningsmaskineoversigt.Src.Repositorys
     public class RessourceRepository : IRescourceRepository
     {
 
-        private readonly UdlejningDataContext _Ctx = new UdlejningDataContext();
+        private Services.BookingService _services = new Services.BookingService();
+        private IBookingRepository _bookingRepository;
+
+        private UdlejningDataContext _Ctx = new UdlejningDataContext();
 
         /// <summary>
         /// The constructor
         /// </summary>
-        public RessourceRepository() {
+        public RessourceRepository(IBookingRepository bookingRepository)
+        {
+            _bookingRepository = bookingRepository;
+        }
+
+        public RessourceRepository()
+        {
         }
 
         /// <summary>
@@ -77,6 +86,8 @@ namespace Udlejningsmaskineoversigt.Src.Repositorys
             try {
                 ResourceDTO old = GetAllElements().First(re => re.Id == resource.Id);
                 old = resource;
+                _Ctx.Resources.Update(new Resource(old));
+                _Ctx.SaveChanges();
             } catch (Exception) {
                 throw new Exception($"Could not find the item with id: {resource.Id}");
             }

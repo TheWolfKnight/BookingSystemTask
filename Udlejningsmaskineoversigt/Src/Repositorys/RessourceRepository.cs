@@ -12,12 +12,17 @@ namespace Udlejningsmaskineoversigt.Src.Repositorys
     public class RessourceRepository : IRescourceRepository
     {
 
+        private Services.BookingService _services = new Services.BookingService();
+        private IBookingRepository _bookingRepository;
+
         private UdlejningDataContext _Ctx = new UdlejningDataContext();
 
         /// <summary>
         /// The constructor
         /// </summary>
-        public RessourceRepository() {
+        public RessourceRepository(IBookingRepository bookingRepository)
+        {
+            _bookingRepository = bookingRepository;
         }
 
         /// <summary>
@@ -61,8 +66,10 @@ namespace Udlejningsmaskineoversigt.Src.Repositorys
         public void Delete(int id) {
             try {
                 ResourceDTO to_be_deleted = GetAllElements().First(re => re.Id == id);
+                if (_services.IsRented(to_be_deleted, _bookingRepository)) { throw new Exception($"The resource with the id: {id} is currently being used in a booking, and can therefore not be deleted.");}
                 Resource result = new Resource(to_be_deleted);
                 _Ctx.Resources.Remove(result);
+                _Ctx.SaveChanges();
             } catch (Exception) {
                 throw new Exception($"Could not find the item with id: {id}");
             }
@@ -77,6 +84,8 @@ namespace Udlejningsmaskineoversigt.Src.Repositorys
             try {
                 ResourceDTO old = GetAllElements().First(re => re.Id == resource.Id);
                 old = resource;
+                _Ctx.Resources.Update(new Resource(old));
+                _Ctx.SaveChanges();
             } catch (Exception) {
                 throw new Exception($"Could not find the item with id: {resource.Id}");
             }

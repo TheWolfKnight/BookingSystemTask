@@ -5,6 +5,7 @@ using Abstraction.Interfaces;
 using Abstraction.Models;
 using Udlejningsmaskineoversigt.Src.Repositorys;
 using Udlejningsmaskineoversigt.Data;
+using Microsoft.AspNetCore.Cors;
 
 namespace Udlejningsmaskineoversigt.Controllers {
     /// <summary>
@@ -12,9 +13,16 @@ namespace Udlejningsmaskineoversigt.Controllers {
     /// </summary>
     [ApiController]
     [Route("[controller]")]
+    [EnableCors]
     public class RessourceController : ControllerBase {
 
         private readonly IRescourceRepository _repo = new RessourceRepository();
+
+        [HttpGet]
+        [Route("test")]
+        public ActionResult<string> TestConnection() {
+            return "ok";
+        }
 
         /// <summary>
         /// Creates a new element in the database

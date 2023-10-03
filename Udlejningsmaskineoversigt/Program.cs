@@ -1,4 +1,5 @@
 
+using Microsoft.AspNetCore.Cors.Infrastructure;
 using Udlejningsmaskineoversigt.Data;
 
 WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
@@ -34,5 +35,11 @@ if (app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 app.UseAuthentication();
 app.MapControllers();
+
+app.UseCors(policyBuilder => {
+    policyBuilder.AllowAnyMethod();
+    policyBuilder.AllowAnyHeader();
+    policyBuilder.AllowAnyOrigin();
+});
 
 app.Run();

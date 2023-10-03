@@ -12,7 +12,7 @@ namespace Udlejningsmaskineoversigt.Src.Repositorys
     public class RessourceRepository : IRescourceRepository
     {
 
-        private UdlejningDataContext _Ctx = new UdlejningDataContext();
+        private readonly UdlejningDataContext _Ctx = new UdlejningDataContext();
 
         /// <summary>
         /// The constructor
@@ -60,9 +60,9 @@ namespace Udlejningsmaskineoversigt.Src.Repositorys
         /// <exception cref="Exception"> Thrown if the id cannot be found in the database </exception>
         public void Delete(int id) {
             try {
-                ResourceDTO to_be_deleted = GetAllElements().First(re => re.Id == id);
-                Resource result = new Resource(to_be_deleted);
-                _Ctx.Resources.Remove(result);
+                Resource to_be_deleted = _Ctx.Resources.First(re => re.Id == id);
+                _Ctx.Resources.Remove(to_be_deleted);
+                _Ctx.SaveChanges();
             } catch (Exception) {
                 throw new Exception($"Could not find the item with id: {id}");
             }

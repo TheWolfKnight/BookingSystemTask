@@ -1,0 +1,113 @@
+﻿@page
+@model IndexModel
+@{
+    ViewData["Title"] = "Home page";
+}
+
+<div id="root-container">
+
+    <a asp-page="./AddRessource.chtml"></a>
+
+    <div id="ressources-manager">
+        <input type="text" id="id-input" placeholder="Enter an Id" />
+        <button id="find-ressource" type="submit">Find Ressource</button>
+        <button id="delete-ressource" type="submit">Delete Ressource</button>
+    </div>
+
+    <div id="ressources-display">
+        <p type="text" id="ressource-description">Description</p>
+        <p type="text" id="ressource-type">Type</p>
+        <p type="text" id="ressource-price">Price</p>
+    </div>
+
+</div>
+
+<script async action="javascript/js">
+
+    const BASE_ADDR = "http://localhost:5000";
+
+    function get_input_id() {
+        const id_input = document.getElementById("id-input");
+        const id_input_val = id_input.value;
+
+        if (id_input.classList.contains("nan")) id_input.classList.remove("nan");
+
+        if (isNaN(id_input_val) || id_input_val.length === 0) {
+            id_input.classList.add("nan");
+            alert("Id er ikke et tal");
+            return NaN;
+        }
+        let id = parseInt(id_input_val);
+        return id;
+    }
+
+    function set_data(data = {description: "", specification: "UNSEPCIFIED", price: "0.0"}) {
+        const ressource_description = document.getElementById("ressource-description");
+        const ressource_type = document.getElementById("ressource-type");
+        const ressource_price = document.getElementById("ressource-price");
+
+        ressource_description.textContent = data.description;
+        ressource_type.textContent = data.specification;
+        ressource_price.textContent = data.price;
+
+    }
+
+    async function get_ressource() {
+        const id = get_input_id();
+
+        if (isNaN(id)) return;
+
+        const response = await fetch(`${BASE_ADDR}/Ressource/${id}`, {
+            method: "GET",
+            mode: "cors",
+        });
+
+        if (response.status !== 200) {
+            alert("Kunne ikke finde denne Ressource");
+            return;
+        }
+
+        const data = await response.json();
+
+        if (!data.hasOwnProperty("description") || !data.hasOwnProperty("specification") || !data.hasOwnProperty("price")) {
+            alert("malformed result");
+            return;
+        }
+
+        set_data(data);
+    }
+
+    async function delete_ressource() {
+        const id = get_input_id();
+
+        if (isNaN(id)) return;
+
+        const response = await fetch(`${BASE_ADDR}/Ressource/${id}`, {
+            method: "DELETE",
+            mode: "cors"
+        });
+
+        if (response.status === 200) alert("Ressource er slettet");
+        else {
+            console.table(response);
+            alert("Kunne ikke finde denne Ressource");
+        }
+
+        return;
+    }
+
+    document.getElementById("find-ressource").addEventListener("click", async(mev) => {
+        const LEFT_MOUSE_BUTTON = 0;
+        if (mev.buttons !== LEFT_MOUSE_BUTTON) return;
+
+        await get_ressource();
+    });
+
+    document.getElementById("delete-ressource").addEventListener("click", async(mev) => {
+        const LEFT_MOUSE_BUTTON = 0;
+        if (mev.buttons !== LEFT_MOUSE_BUTTON) return;
+
+        await delete_ressource();
+    });
+
+</script>

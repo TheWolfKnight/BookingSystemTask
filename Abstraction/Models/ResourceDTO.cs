@@ -58,5 +58,9 @@ namespace Abstraction.Models {
             Specification = source.Specification;
             Price = source.Price;
         }
+
+        public override string ToString() {
+            return $"ResourceDTO(id={Id}, description =\"{Description}\", specification={Specification}, price={Price}";
+        }
     }
 }

@@ -1,0 +1,36 @@
+﻿@page "{message=}"
+@model IndexModel
+@using Abstraction.Models;
+@using Abstraction.Enumerators;
+@{
+    ViewData["Title"] = "Home page";
+}
+
+<div id="index-root">
+    <h1 class="align-top">Index</h1>
+
+    <a asp-page="./AddItem">Make new Ressource</a>
+
+    <h3 class="align-top">Last Action Result</h3>
+    <p>@Model.Message</p>
+
+    <table id="content-display" class="table">
+        <tr style="background-color: darkred; color: black;">
+            <th>Description</th>
+            <th>Specification</th>
+            <th>Price</th>
+            <th>Actions</th>
+        </tr>
+        @foreach (ResourceDTO dto in Model.Ressources) {
+            <tr style="background-color: @Model.GetColor();">
+                <td>@dto.Description</td>
+                <td>@dto.Specification.GetDescription()</td>
+                <td>@dto.Price.ToString()</td>
+                <td>
+                    <a asp-page="./EditItem" asp-route-id="@dto.Id">Update</a> | 
+                    <a asp-page="./DeleteItem" asp-route-id="@dto.Id" >Delete</a>
+                </td>
+            </tr>
+        }
+    </table>
+</div>

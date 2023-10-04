@@ -28,6 +28,12 @@ namespace Udlejningsmaskineoversigt.Controllers {
             return "ok";
         }
 
+        [HttpGet]
+        [Route("all")]
+        public ActionResult<IEnumerable<ResourceDTO>> GetAllRessource() {
+            return Ok(_repo.GetAllElements());
+        }
+
         /// <summary>
         /// Creates a new element in the database
         /// </summary>

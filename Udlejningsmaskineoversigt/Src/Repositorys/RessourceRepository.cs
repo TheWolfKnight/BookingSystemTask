@@ -1,6 +1,7 @@
 ﻿
 using Abstraction.Interfaces;
 using Abstraction.Models;
+using Azure.Core;
 using Microsoft.EntityFrameworkCore;
 using Udlejningsmaskineoversigt.Data;
 using Udlejningsmaskineoversigt.Src.Services;
@@ -87,9 +88,13 @@ namespace Udlejningsmaskineoversigt.Src.Repositorys
         /// <exception cref="Exception"> Thrown if no Resource with given id can be found </exception>
         public void Update(ResourceDTO resource) {
             try {
-                ResourceDTO old = GetAllElements().First(re => re.Id == resource.Id);
-                old = resource;
-                _Ctx.Resources.Update(new Resource(old));
+                Resource old = _Ctx.Resources.First(re => re.Id == resource.Id);
+                old.Price = resource.Price;
+                old.Specification = resource.Specification;
+                old.Description = resource.Description;
+
+                _Ctx.Resources.Update(old);
+
                 _Ctx.SaveChanges();
             } catch (Exception) {
                 throw new Exception($"Could not find the item with id: {resource.Id}");

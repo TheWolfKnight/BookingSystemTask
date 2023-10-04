@@ -1,0 +1,22 @@
+﻿@page "{id}"
+@model EditItemModel
+@{
+    ViewData["Title"] = "Edit Ressource";
+}
+
+<div id="edit-page-root">
+
+    <a asp-page="./Index">Go back</a>
+
+    <h1 class="align-content-center">Edit Item</h1>
+
+    <p>@Model.ErrMessage</p>
+
+    <form method="post">
+        <input id="description-input" name="DescriptionInput" type="text" />
+        <input id="type-input" name="TypeInput" type="number" />
+        <input id="price-input" name="PriceInput" type="text" />
+        <button id="submit-button" type="submit">Submit changes</button>
+    </form>
+
+</div>

@@ -23,7 +23,6 @@
         const price = parseFloat(document.getElementById('price-input').value);
 
         const requestData = {
-            id: id,
             source: {
                 description: description,
                 specification: specification,
@@ -32,12 +31,12 @@
         };
 
         const BASE_ADDR = "http://localhost:5000";
-        const response = await fetch(`${BASE_ADDR}/UpdateResource`, {
-            method: 'PUT',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(requestData)
+        const response = await fetch(`${BASE_ADDR}/UpdateRessouce/${id}`, {
+	        method: 'PUT',
+	        headers: {
+		        'Content-Type': 'application/json'
+	        },
+	        body: JSON.stringify(requestData)
         });
 
         if (response.ok) {

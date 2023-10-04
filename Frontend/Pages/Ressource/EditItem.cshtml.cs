@@ -1,9 +1,9 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
-namespace Frontend.Pages
+namespace Frontend.Pages.Ressource
 {
-    public class AddRessourceModel : PageModel
+    public class EditItemModel : PageModel
     {
         public void OnGet()
         {

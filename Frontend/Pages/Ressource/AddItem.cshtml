@@ -1,0 +1,21 @@
+﻿@page
+@model AddItemModel
+@{
+    ViewData["Title"] = "New Ressource";
+}
+
+<div id="ressource-creator-root">
+
+    <a asp-page="./Index" asp-route-message="Ressource creation aborted">Go Back</a>
+
+
+    <h1 class="align-content-center">Add Ressource</h1>
+    <p style="color: darkred;">@Model.ErrMessage</p>
+
+    <form method="post">
+        <input id="description-input" name="DescriptionInput" type="text" placeholder="Description" />
+        <input id="type-input" name="TypeInput" type="number" placeholder="Type" />
+        <input id="price-input" name="PriceInput" type="text" placeholder="Price" />
+        <button id="submit-button" type="submit">Submit</button>
+    </form>
+</div>

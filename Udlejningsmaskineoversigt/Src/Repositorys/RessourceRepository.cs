@@ -1,6 +1,7 @@
 ﻿
 using Abstraction.Interfaces;
 using Abstraction.Models;
+using Azure.Core;
 using Microsoft.EntityFrameworkCore;
 using Udlejningsmaskineoversigt.Data;
 using Udlejningsmaskineoversigt.Src.Services;

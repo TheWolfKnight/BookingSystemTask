@@ -1,4 +1,5 @@
 ﻿using Abstraction.Enumerators;
+using System.Reflection;
 
 namespace Abstraction.Models {
     /// <summary>
@@ -9,7 +10,7 @@ namespace Abstraction.Models {
         /// <summary>
         /// 
         /// </summary>
-        public int Id { get; private set; }
+        public int Id { get; set; }
         /// <summary>
         /// 
         /// </summary>
@@ -28,11 +29,16 @@ namespace Abstraction.Models {
         /// </summary>
         public ResourceDTO() {}
 
-        public ResourceDTO(Resource source) {
-            this.Id = source.Id;
-            this.Description = source.Description;
-            this.Specification = source.Specification;
-            this.Price = source.Price;
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="obj"></param>
+        public ResourceDTO(object obj) {
+            PropertyInfo[] ownProperties = this.GetType().GetProperties();
+            string[] names = ownProperties.Select(p => p.Name).ToArray();
+            foreach (PropertyInfo info in obj.GetType().GetProperties())
+                if (names.Contains(info.Name))
+                    ownProperties.First(prop => prop.Name == info.Name).SetValue(this, info.GetValue(obj));
         }
 
         /// <summary>

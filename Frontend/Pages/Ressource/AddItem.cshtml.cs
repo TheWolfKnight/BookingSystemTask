@@ -42,6 +42,7 @@ namespace Frontend.Pages.Ressource
                 ErrMessage += "Please input a valid specification\n";
             }
 
+            s_price = s_price?.Replace('.', ',');
             if (!double.TryParse(s_price, out double price)) {
                 ErrMessage += "Please input a valid price\n";
             }

@@ -13,19 +13,19 @@ namespace Abstraction.Models {
         /// </summary>
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public int Id { get; private set; }
+        public int Id { get; set; }
         /// <summary>
         /// 
         /// </summary>
-        public string Description { get; private set; } = null!;
+        public string Description { get; set; } = null!;
         /// <summary>
         /// 
         /// </summary>
-        public Specification Specification { get; private set; } = Specification.UNSPECIFIED;
+        public Specification Specification { get; set; } = Specification.UNSPECIFIED;
         /// <summary>
         /// 
         /// </summary>
-        public double Price { get; private set; }
+        public double Price { get; set; }
 
         /// <summary>
         /// 

@@ -29,6 +29,7 @@ namespace Frontend.Pages.Ressource
 
         public string GetColor()
         {
+            _IsSecond = !_IsSecond;
             return _IsSecond ? "#f83e35" : "#db0a00";
         }
 

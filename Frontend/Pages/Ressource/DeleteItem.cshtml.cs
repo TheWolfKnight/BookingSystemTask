@@ -11,7 +11,20 @@ namespace Frontend.Pages.Ressource
 
         public DeleteItemModel()
         {
-            Uri base_addr = new Uri("http://localhost:5000/");
+
+            IConfigurationRoot config = new ConfigurationBuilder()
+                .SetBasePath(Directory.GetCurrentDirectory())
+                .AddJsonFile("appsettings.json", false)
+                .AddEnvironmentVariables()
+                .Build();
+
+#if DEBUG
+            string addr_str = config.GetValue<string>("APIHttpUri:Debug")!;
+#else
+            string addr_str = config.GetValue<string>("APIHttpUri:Release")!;
+#endif
+
+            Uri base_addr = new Uri(addr_str);
             _Client = new HttpClient();
             _Client.BaseAddress = base_addr;
         }

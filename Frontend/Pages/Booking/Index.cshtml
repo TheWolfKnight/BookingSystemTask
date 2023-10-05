@@ -1,0 +1,34 @@
+@page
+@model IndexPageModel
+@using Abstraction.Models
+@{
+  ViewData["Title"] = "Booking Index";
+}
+
+<div id="booking-root">
+
+  <h1 id="main-header">Bookings</h1>
+  <p>@Model.Mesasge</p>
+
+  <table id="main-booking-view" class="table">
+    <tr id="table-headers">
+      <th>Ressource</th>
+      <th>Start</th>
+      <th>End</th>
+    </tr>
+    @foreach (BookingDTO dto in Model.Bookings) {
+      <tr>
+        <td>@dto.Resource.Description</td>
+        <td>@dto.Start:d</td>
+        <td>@dto.End:d</td>
+        <td>
+          <a asp-page="">Update</a> | 
+          <a asp-page="./DeleteItem" asp-route-id="@dto.Id">Delete</a>
+        </td>
+      </tr>
+    }
+
+  </table>
+
+</div>
+

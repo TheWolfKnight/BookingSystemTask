@@ -55,23 +55,24 @@ namespace Frontend.Pages.Ressource
             catch (Exception)
             {
                 Message = "Could not get an connection to the server";
-                Ressources = new List<ResourceDTO>();
+                Ressources = Array.Empty<ResourceDTO>();
                 return;
             }
 
-            if (!response.IsSuccessStatusCode)
+            if (!response.IsSuccessStatusCode) {
+                Message = "Could not load the Ressources";
                 return;
+            }
 
             IEnumerable<ResourceDTO>? content = await response.Content.ReadFromJsonAsync<IEnumerable<ResourceDTO>>();
 
-            Ressources = content!;
             Message = "Ressources Loaded: \n";
+            Ressources = content!;
         }
 
         public async Task<IActionResult> OnGetAsync()
         {
             await GetRessources();
-
             if (RouteData.Values.TryGetValue("message", out object? msg) &&
                 !string.IsNullOrEmpty((string)msg!))
             {

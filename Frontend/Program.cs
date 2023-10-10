@@ -21,4 +21,6 @@ app.UseAuthorization();
 
 app.MapRazorPages();
 
+app.UseStatusCodePages();
+
 app.Run();

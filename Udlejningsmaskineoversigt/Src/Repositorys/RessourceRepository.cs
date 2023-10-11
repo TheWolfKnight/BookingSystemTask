@@ -32,8 +32,8 @@ namespace Udlejningsmaskineoversigt.Src.Repositorys
         /// Gets all Resources in the database
         /// </summary>
         /// <returns> An enumerable with the databases Resources </returns>
-        public IEnumerable<ResourceDTO> GetAllElements() {
-            return _Ctx.Resources.Select(r => new ResourceDTO(r));
+        IEnumerable<ResourceDTO> IRescourceRepository.GetAllElements() {
+            return _Ctx.Resources.AsNoTracking().Select(r => new ResourceDTO(r));
         }
 
         /// <summary>
@@ -42,9 +42,10 @@ namespace Udlejningsmaskineoversigt.Src.Repositorys
         /// <param name="id"> The id of the resource </param>
         /// <returns> An instance of Resource </returns>
         /// <exception cref="Exception"> If the item cannot be found, throw exception </exception>
-        public ResourceDTO GetById(int id) {
+        ResourceDTO IRescourceRepository.GetById(int id) {
             try {
-                ResourceDTO result = GetAllElements().First(re => re.Id == id);
+                Resource resource = _Ctx.Resources.AsNoTracking().First(re => re.Id == id);
+                ResourceDTO result = new ResourceDTO(resource);
                 return result;
             } catch (Exception) {
                 throw new Exception($"Could not find item with id: {id}");
@@ -55,7 +56,7 @@ namespace Udlejningsmaskineoversigt.Src.Repositorys
         /// Commits a Resource to the database
         /// </summary>
         /// <param name="resource"> The instance of Resource to be inserted </param>
-        public void Add(ResourceDTO resource) {
+        void IRescourceRepository.Add(ResourceDTO resource) {
             Resource result = new Resource(resource);
             _Ctx.Resources.Add(result);
             _Ctx.SaveChanges();
@@ -66,7 +67,7 @@ namespace Udlejningsmaskineoversigt.Src.Repositorys
         /// </summary>
         /// <param name="id"> The id of the Resource to be deleted </param>
         /// <exception cref="Exception"> Thrown if the id cannot be found in the database </exception>
-        public void Delete(int id) {
+        void IRescourceRepository.Delete(int id) {
             try {
                 Resource to_be_deleted = _Ctx.Resources.First(re => re.Id == id);
 
@@ -86,7 +87,7 @@ namespace Udlejningsmaskineoversigt.Src.Repositorys
         /// </summary>
         /// <param name="resource"> The resource to be updated </param>
         /// <exception cref="Exception"> Thrown if no Resource with given id can be found </exception>
-        public void Update(ResourceDTO resource) {
+        void IRescourceRepository.Update(ResourceDTO resource) {
             try {
                 Resource old = _Ctx.Resources.First(re => re.Id == resource.Id);
                 old.Price = resource.Price;
